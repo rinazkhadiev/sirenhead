@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "315998978348",
+    "project_id": "siren-head-679fd",
+    "storage_bucket": "siren-head-679fd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:315998978348:android:308c13c208178064a66c89",
+        "android_client_info": {
+          "package_name": "com.Khadiev.SirenHeadHorrorGame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "315998978348-aojalrjvhb2f10hrdvglsf7hnpfroso3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtOObKBR-LzvP-uyZMO_qvad1kFIt8zC4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "315998978348-aojalrjvhb2f10hrdvglsf7hnpfroso3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
