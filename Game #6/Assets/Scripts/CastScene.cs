@@ -18,6 +18,7 @@ public class CastScene : MonoBehaviour
     [SerializeField] private Text _loadText;
     private Transform _transform;
     private bool _go;
+    [SerializeField] private GameObject _volumeGameObject;
 
 
     [SerializeField] private GameObject _nonCastPart;
@@ -62,6 +63,11 @@ public class CastScene : MonoBehaviour
         {
              _nonCastPart.SetActive(true);
             StartCoroutine(NonDialog());
+        }
+
+	if (PlayerPrefs.HasKey("Graphics") && PlayerPrefs.GetInt("Graphics") == 0)
+        {
+            _volumeGameObject.SetActive(false);
         }
     }
 

@@ -16,10 +16,19 @@ public class SceneChange : MonoBehaviour
     [SerializeField] private Image _bg;
     [SerializeField] private Sprite[] _bgSprites;
 
+    [SerializeField] private GameObject _highSettings;
+    [SerializeField] private GameObject _lowSettings;
+
     private void Start()
     {
         Singleton = this;
         _analyticsEvent.OnEvent("Launch");
+
+        if (PlayerPrefs.HasKey("Graphics") && PlayerPrefs.GetInt("Graphics") == 0)
+        {
+            _highSettings.SetActive(false);
+	    _lowSettings.SetActive(true);
+        }
 
         PlayerPrefs.SetInt("DNFR", 0);
 
@@ -82,5 +91,10 @@ Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => {
             _isFog = 0;
         }
         PlayerPrefs.SetInt("Fog", _isFog);
+    }
+
+    public void Graphics(int value)
+    {
+        PlayerPrefs.SetInt("Graphics", value);
     }
 }

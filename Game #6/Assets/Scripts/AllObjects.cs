@@ -37,6 +37,8 @@ public class AllObjects : MonoBehaviour
     public GameObject MiniCartoonPrefabA;
     public GameObject MiniCartoonPrefabB;
 
+    public GameObject VolumeGameObject;
+
     [Header("Детали")]
     public List<GameObject> FirstDetails = new List<GameObject>();
     public List<GameObject> FirstUpBtn = new List<GameObject>();

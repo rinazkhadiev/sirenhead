@@ -1012,6 +1012,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -19301,6 +19302,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -26218,6 +26220,7 @@ MonoBehaviour:
   _secondPartCar: {fileID: 2023628640}
   _loadBarImage: {fileID: 1729381968}
   _loadText: {fileID: 674509199}
+  _volumeGameObject: {fileID: 1194254219}
   _nonCastPart: {fileID: 261513365}
   _secondDialog:
   - {fileID: 21535810}
@@ -28624,6 +28627,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2

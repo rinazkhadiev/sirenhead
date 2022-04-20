@@ -1,5 +1,5 @@
 <dependencies>
-<unityversion>4.3.14.2</unityversion>
+<unityversion>4.3.14.3</unityversion>
   <androidPackages>
     <androidPackage spec="com.ironsource.adapters:pangleadapter:4.3.12">
         <repositories>
@@ -15,7 +15,7 @@
       </androidPackage>
   </androidPackages>
     <iosPods>
-        <iosPod name="IronSourcePangleAdapter" version="4.3.13.2">
+        <iosPod name="IronSourcePangleAdapter" version="4.3.13.3">
             <sources>
                 <source>https://github.com/CocoaPods/Specs</source>
             </sources>

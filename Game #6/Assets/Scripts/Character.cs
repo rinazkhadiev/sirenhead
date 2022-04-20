@@ -42,6 +42,11 @@ public class Character : MonoBehaviour
         _cameraTransform = Camera.main.transform;
         _partNumber = PlayerPrefs.GetInt("Part");
         _miniSirenTimer = Random.Range(20, 30);
+
+        if (PlayerPrefs.HasKey("Graphics") && PlayerPrefs.GetInt("Graphics") == 0)
+        {
+            AllObjects.Singleton.VolumeGameObject.SetActive(false);
+        }
     }
 
     private void Update()
