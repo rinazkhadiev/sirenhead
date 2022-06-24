@@ -1,0 +1,1 @@
+-keep interface com.cleversolutions.ads.android.CAS$ManagerBuilder { *; }

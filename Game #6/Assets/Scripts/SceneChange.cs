@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using CAS.UserConsent;
+using CAS;
 
 public class SceneChange : MonoBehaviour
 {
@@ -18,6 +20,7 @@ public class SceneChange : MonoBehaviour
 
     [SerializeField] private GameObject _highSettings;
     [SerializeField] private GameObject _lowSettings;
+    [SerializeField] private GameObject _villagePanel;
 
     private void Start()
     {
@@ -54,22 +57,20 @@ public class SceneChange : MonoBehaviour
             _startThreeButton.interactable = true;
         }
 
+        if(PlayerPrefs.HasKey("Village"))
+        {
+	    if(PlayerPrefs.GetInt("Village") == 1)
+	    {
+               _villagePanel.SetActive(true);
+	    }
+        }
+        else
+        {
+            PlayerPrefs.SetInt("Village", 1);
+        }
+
         _bg.sprite = _bgSprites[Random.Range(0, _bgSprites.Length)];
-
-Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => {
-  var dependencyStatus = task.Result;
-  if (dependencyStatus == Firebase.DependencyStatus.Available) {
-    // Create and hold a reference to your FirebaseApp,
-    // where app is a Firebase.FirebaseApp property of your application class.
-       Firebase.FirebaseApp app = Firebase.FirebaseApp.DefaultInstance;
-
-    // Set a flag here to indicate whether Firebase is ready to use by your app.
-  } else {
-    UnityEngine.Debug.LogError(System.String.Format(
-      "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
-    // Firebase Unity SDK is not safe to use here.
-  }
-});
+        PlayerPrefs.SetInt("Spell", 0);
     }
 
     public void SceneLoad(int partNumber)
@@ -96,5 +97,10 @@ Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => {
     public void Graphics(int value)
     {
         PlayerPrefs.SetInt("Graphics", value);
+    }
+    
+    public void VillageOpen()
+    {
+        PlayerPrefs.SetInt("Village", 2);
     }
 }

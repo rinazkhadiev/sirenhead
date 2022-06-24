@@ -8,32 +8,48 @@ public class Weapon : MonoBehaviour
 
     private float _damage = 1f;
     private int _bulletValue = 10;
+    private bool _aiming;
+    private Camera _camera;
 
+    private int _gunNumber;
 
     private void Start()
     {
+        _camera = Camera.main;
+
         if (PlayerPrefs.GetInt("Part") == 3)
         {
-            AllObjects.Singleton.Weapon.SetActive(true);
             AllObjects.Singleton.AimUI.SetActive(true);
             AllObjects.Singleton.ShootButton.SetActive(true);
             AllObjects.Singleton.HpBar.gameObject.SetActive(true);
             AllObjects.Singleton.BulletValueText.gameObject.SetActive(true);
             AllObjects.Singleton.WeaponReloadButton.gameObject.SetActive(true);
+            AllObjects.Singleton.GunsPanel.SetActive(true);
+            AllObjects.Singleton.SirenIsStop = true;
         }
         else if (PlayerPrefs.GetInt("Part") == 4)
         {
-            AllObjects.Singleton.Weapon.SetActive(true);
             AllObjects.Singleton.AimUI.SetActive(true);
             AllObjects.Singleton.ShootButton.SetActive(true);
             _bulletValue = 10000;
+            AllObjects.Singleton.GunsPanel.SetActive(true);
+            AllObjects.Singleton.SirenIsStop = true;
         }
         else if (PlayerPrefs.GetInt("Part") == 6)
         {
-            AllObjects.Singleton.Weapon.SetActive(true);
             AllObjects.Singleton.AimUI.SetActive(true);
             AllObjects.Singleton.ShootButton.SetActive(true);
             AllObjects.Singleton.WeaponReloadButton.gameObject.SetActive(true);
+            AllObjects.Singleton.GunsPanel.SetActive(true);
+            AllObjects.Singleton.SirenIsStop = true;
+        }
+    }
+
+    private void Update()
+    {
+        if (_aiming)
+        {
+            _camera.fieldOfView = AllObjects.Singleton.AimSlider.value;
         }
     }
 
@@ -49,9 +65,8 @@ public class Weapon : MonoBehaviour
                 }
             }
 
-            AllObjects.Singleton.WeaponAnim.Play("Fire");
             AllObjects.Singleton.WeaponShootSound.PlayOneShot(AllObjects.Singleton.WeaponShootSound.clip);
-            AllObjects.Singleton.ShootVFX.Play();
+            AllObjects.Singleton.ShootVFX[_gunNumber - 1].Play();
 
             _bulletValue--;
             AllObjects.Singleton.BulletValueText.text = $"{_bulletValue}/10";
@@ -69,6 +84,31 @@ public class Weapon : MonoBehaviour
             StartCoroutine(WeaponReloadWait());
         }
     }
+
+    public void SelectWeapon(int number)
+    {
+        if(number == 3)
+        {
+            _damage = 2;
+        }
+        _gunNumber = number;
+
+        AllObjects.Singleton.WeaponShootSound.clip = AllObjects.Singleton.WeaponSounds[_gunNumber - 1];
+
+        AllObjects.Singleton.SirenIsStop = false;
+    }
+
+    public void Aiming()
+    {
+        _aiming = true;
+    }
+
+    public void AimingOff()
+    {
+        _camera.fieldOfView = 75;
+        _aiming = false;
+    }
+
 
     IEnumerator WeaponReloadWait()
     {

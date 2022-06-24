@@ -1,5 +1,5 @@
 {
-    "m_SelectedDeviceId": "",
+    "m_SelectedDeviceId": "4200da6fc67f8300",
     "m_SelectedPackage": {
         "deviceId": "",
         "name": "",
@@ -7,7 +7,14 @@
         "exited": false
     },
     "m_SelectedPriority": 0,
-    "m_KnownPackagesForSerialization": [],
+    "m_KnownPackagesForSerialization": [
+        {
+            "deviceId": "4200da6fc67f8300",
+            "name": "com.unity3d.mobileremote",
+            "processId": 28196,
+            "exited": false
+        }
+    ],
     "m_Tags": {
         "m_Entries": [
             {
@@ -37,17 +44,36 @@
             {
                 "m_Name": "CRASH",
                 "m_Selected": false
+            },
+            {
+                "m_Name": "CASIntegrationHelper",
+                "m_Selected": false
+            },
+            {
+                "m_Name": "CAS",
+                "m_Selected": false
             }
         ]
     },
     "m_MemoryViewerState": {
-        "MemoryWindowHeight": 0.0,
-        "MemoryWindowWidth": 0.0,
-        "MemoryTypeEnabled": [],
+        "MemoryWindowHeight": 300.0,
+        "MemoryWindowWidth": 170.0,
+        "MemoryTypeEnabled": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+        ],
         "MemoryGroup": 2,
         "Behavior": 0
     },
-    "m_Filter": "",
+    "m_Filter": "CAS",
     "m_FilterIsRegularExpression": false,
     "m_SymbolPaths": []
 }

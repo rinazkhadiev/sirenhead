@@ -24,10 +24,9 @@ public class AllObjects : MonoBehaviour
     public GameObject FirthPartCharPos;
     public GameObject FivePartCharPos;
 
-    public GameObject Weapon;
     public GameObject RaycastTarget;
     public Animator WeaponAnim;
-    public ParticleSystem ShootVFX;
+    public ParticleSystem[] ShootVFX;
 
     public GameObject FirstPartSirenHead;
     public GameObject ThirdPartSirenHead;
@@ -101,6 +100,8 @@ public class AllObjects : MonoBehaviour
 
     public GameObject FiveMyHouse;
 
+    public bool SirenIsStop;
+
     [Header("UI")]
     public Image FirstFinishPanel;
     public GameObject FirstFinishText;
@@ -123,7 +124,7 @@ public class AllObjects : MonoBehaviour
     public Image SirenDistanceImage;
     public Image CameraShootButton;
     public Button CameraShootButtonComponent;
-    public GameObject HowToPlay;
+    public GameObject[] HowToPlay;
 
     public Slider HpBar;
     public GameObject AimUI;
@@ -139,7 +140,6 @@ public class AllObjects : MonoBehaviour
     public GameObject MazeCarButton;
 
     public GameObject FirthPartCarText;
-    public GameObject InvertiorHowToPlay;
 
     public GameObject SettingsMenu;
     public Slider SensitivityBar;
@@ -150,6 +150,11 @@ public class AllObjects : MonoBehaviour
     public GameObject[] FirstTexts;
     public Slider CartoonSlider;
     public Text CartoonText;
+
+    public GameObject SpellPanel;
+
+    public GameObject GunsPanel;
+    public Slider AimSlider;
 
     [Header("Audio")]
     public AudioSource FailStartAudio;
@@ -174,6 +179,8 @@ public class AllObjects : MonoBehaviour
     public AudioClip[] FirstSteps;
     public AudioClip[] SecondSteps;
 
+    public AudioClip[] WeaponSounds;
+
 
 
 
@@ -184,6 +191,5 @@ public class AllObjects : MonoBehaviour
     private void Awake()
     {
         Singleton = this;
-        
     }
 }

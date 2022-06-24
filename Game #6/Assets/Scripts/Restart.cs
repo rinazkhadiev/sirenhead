@@ -9,6 +9,7 @@ public class Restart : MonoBehaviour
 
     public void OpenSite(string url)
     {
+	Ads.Singleton.manager.SkipNextAppReturnAds();
         Application.OpenURL(url);
     }
 }

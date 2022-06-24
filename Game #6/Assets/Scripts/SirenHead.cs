@@ -43,7 +43,6 @@ public class SirenHead : MonoBehaviour
         {
             if (PlayerPrefs.GetInt("Dialog") != 1)
             {
-                AllObjects.Singleton.HowToPlay.SetActive(true);
                 StartCoroutine(HowToPlay());
             }
         }
@@ -70,24 +69,10 @@ public class SirenHead : MonoBehaviour
         else if(_partNumber == 5)
         {
             AllObjects.Singleton.GiveUpsButton.SetActive(false);
-            AllObjects.Singleton.InvertiorHowToPlay.SetActive(false);
-	    
-            if (PlayerPrefs.GetInt("Dialog") != 1)
-            {
-                AllObjects.Singleton.HowToPlay.SetActive(true);
-                StartCoroutine(HowToPlay());
-            }
         }
         else if(_partNumber == 6)
         {
             AllObjects.Singleton.GiveUpsButton.SetActive(false);
-            AllObjects.Singleton.InvertiorHowToPlay.SetActive(false);
-
-            if (PlayerPrefs.GetInt("Dialog") != 1)
-            {
-                AllObjects.Singleton.HowToPlay.SetActive(true);
-                StartCoroutine(HowToPlay());
-            }
         }
     }
 
@@ -97,7 +82,15 @@ public class SirenHead : MonoBehaviour
         {
             AllObjects.Singleton.CameraShootButton.gameObject.SetActive(false);
             Transform.position = new Vector3(Transform.position.x, 0, Transform.position.z);
-            _navMesh.isStopped = false;
+
+            if (!AllObjects.Singleton.SirenIsStop)
+            {
+                _navMesh.isStopped = false;
+            }
+            else
+            {
+                _navMesh.isStopped = true;
+            }
 
             if (Character.Singleton.Transform.position.y < 30)
             {
@@ -141,7 +134,16 @@ public class SirenHead : MonoBehaviour
             if (Vector3.Distance(Character.Singleton.Transform.position, Transform.position) > 5)
             {
                 AllObjects.Singleton.HeardAudio.mute = true;
-                _navMesh.isStopped = false;
+
+                if (!AllObjects.Singleton.SirenIsStop)
+                {
+                    _navMesh.isStopped = false;
+                }
+                else
+                {
+                    _navMesh.isStopped = true;
+                }
+
                 _anim.SetInteger("State", 1);
                 _navMesh.speed = _walkSpeed;
 
@@ -168,13 +170,11 @@ public class SirenHead : MonoBehaviour
                 }
                 else
                 {
-
                     _navMesh.SetDestination(AllObjects.Singleton.SirenSecondPoint.transform.position);
                 }
             }
             else if (Vector3.Distance(Character.Singleton.Transform.position, Transform.position) < 5 && Vector3.Distance(Character.Singleton.Transform.position, Transform.position) > 1)
             {
-                _navMesh.isStopped = false;
                 _navMesh.SetDestination(Character.Singleton.Transform.position);
                 AllObjects.Singleton.HeardAudio.mute = false;
                 _anim.SetInteger("State", 2);
@@ -206,7 +206,14 @@ public class SirenHead : MonoBehaviour
                 {
                     if (Vector3.Distance(Character.Singleton.Transform.position, Transform.position) > 2)
                     {
-                        _navMesh.isStopped = false;
+                        if (!AllObjects.Singleton.SirenIsStop)
+                        {
+                            _navMesh.isStopped = false;
+                        }
+                        else
+                        {
+                            _navMesh.isStopped = true;
+                        }
                         _navMesh.SetDestination(Character.Singleton.Transform.position);
                         _navMesh.speed = _runSpeed;
                         AllObjects.Singleton.HeardAudio.mute = false;
@@ -231,7 +238,14 @@ public class SirenHead : MonoBehaviour
 
             if (!_isDead)
             {
-                _navMesh.isStopped = false;
+                if (!AllObjects.Singleton.SirenIsStop)
+                {
+                    _navMesh.isStopped = false;
+                }
+                else
+                {
+                    _navMesh.isStopped = true;
+                }
                 _navMesh.SetDestination(Character.Singleton.Transform.position);
 
                 if (Vector3.Distance(Character.Singleton.Transform.position, Transform.position) > 10)
@@ -264,8 +278,14 @@ public class SirenHead : MonoBehaviour
         else if (_partNumber == 5)
         {
             AllObjects.Singleton.CameraShootButton.gameObject.SetActive(false);
-
-            _navMesh.isStopped = false;
+            if (!AllObjects.Singleton.SirenIsStop)
+            {
+                _navMesh.isStopped = false;
+            }
+            else
+            {
+                _navMesh.isStopped = true;
+            }
             _navMesh.SetDestination(Character.Singleton.Transform.position);
             AllObjects.Singleton.HeardAudio.mute = false;
 
@@ -290,7 +310,14 @@ public class SirenHead : MonoBehaviour
 
             if (!_isDead)
             {
-                _navMesh.isStopped = false;
+                if (!AllObjects.Singleton.SirenIsStop)
+                {
+                    _navMesh.isStopped = false;
+                }
+                else
+                {
+                    _navMesh.isStopped = true;
+                }
                 _navMesh.SetDestination(Character.Singleton.Transform.position);
 
                 
@@ -332,9 +359,19 @@ public class SirenHead : MonoBehaviour
 
                 if (!Ads.Singleton.InterstitialShowed)
                 {
-                    if (IronSource.Agent.isInterstitialReady())
+                    //if (IronSource.Agent.isInterstitialReady())
+                    //{
+                    //    IronSource.Agent.showInterstitial();
+                    //    AllObjects.Singleton.AnalyticsEvent.OnEvent("AfterDeadSuccess");
+                    //}
+                    //else
+                    //{
+                    //    AllObjects.Singleton.AnalyticsEvent.OnEvent("AfterDeadFailed");
+                    //}
+
+                    if (Ads.Singleton.manager.IsReadyAd(CAS.AdType.Interstitial))
                     {
-                        IronSource.Agent.showInterstitial();
+                        Ads.Singleton.manager.ShowAd(CAS.AdType.Interstitial);
                         AllObjects.Singleton.AnalyticsEvent.OnEvent("AfterDeadSuccess");
                     }
                     else
@@ -431,8 +468,14 @@ public class SirenHead : MonoBehaviour
 
     IEnumerator HowToPlay()
     {
+        yield return new WaitForSeconds(2);
+        AllObjects.Singleton.HowToPlay[0].SetActive(true);
         yield return new WaitForSeconds(5);
-        AllObjects.Singleton.HowToPlay.SetActive(false);
+        AllObjects.Singleton.HowToPlay[0].SetActive(false);
+        yield return new WaitForSeconds(1);
+        AllObjects.Singleton.HowToPlay[1].SetActive(true);
+        yield return new WaitForSeconds(5);
+        AllObjects.Singleton.HowToPlay[1].SetActive(false);
         PlayerPrefs.SetInt("Dialog", 1);
     }
 

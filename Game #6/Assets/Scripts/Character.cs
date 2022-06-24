@@ -29,7 +29,7 @@ public class Character : MonoBehaviour
 
     [SerializeField] private float _playerSpeed = 2.0f;
     [SerializeField] private float _jumpHeight = 1.0f;
-    [SerializeField] private float _gravityValue = -9.81f;
+    public float GravityValue { get; set; } = -9.81f;
     private Vector3 _playerVelocity;
     private bool _groundedPlayer;
     private bool _isJumping;
@@ -46,6 +46,15 @@ public class Character : MonoBehaviour
         if (PlayerPrefs.HasKey("Graphics") && PlayerPrefs.GetInt("Graphics") == 0)
         {
             AllObjects.Singleton.VolumeGameObject.SetActive(false);
+        }
+
+        if(PlayerPrefs.GetInt("Spell") == 1)
+        {
+            StartCoroutine(Spell());
+        }
+        else
+        {
+            PlayerPrefs.SetInt("Spell", 1);
         }
     }
 
@@ -165,10 +174,10 @@ public class Character : MonoBehaviour
 
         if (_isJumping && _groundedPlayer)
         {
-            _playerVelocity.y += Mathf.Sqrt(_jumpHeight * -3.0f * _gravityValue);
+            _playerVelocity.y += Mathf.Sqrt(_jumpHeight * -3.0f * GravityValue);
         }
 
-        _playerVelocity.y += _gravityValue * Time.deltaTime;
+        _playerVelocity.y += GravityValue * Time.deltaTime;
         CharController.Move(_playerVelocity * Time.deltaTime);
 
         if(!_groundedPlayer && Transform.position.y < -10f)
@@ -257,5 +266,13 @@ public class Character : MonoBehaviour
     {
         Transform.position = SpawnPosition;
         SirenHead.Singleton.RespawnSet();
+    }
+
+    IEnumerator Spell()
+    {
+        yield return new WaitForSeconds(3);
+        AllObjects.Singleton.SpellPanel.SetActive(true);
+        yield return new WaitForSeconds(20);
+        AllObjects.Singleton.SpellPanel.SetActive(false);
     }
 }

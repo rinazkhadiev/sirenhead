@@ -21,12 +21,21 @@ public class CameraController : MonoBehaviour, IDragHandler
         {
             AllObjects.Singleton.SensitivityBar.value = 6f;
         }
+
+        if (PlayerPrefs.GetInt("Part") == 1)
+        {
+            _moveX = 87;
+        }
+        else if(PlayerPrefs.GetInt("Part") == 3)
+        {
+            _moveX = 136;
+        }
     }
     private void Update()
     {
+        _sensitivity = AllObjects.Singleton.SensitivityBar.value;
         if (AllObjects.Singleton.SettingsMenu.activeSelf)
         {
-            _sensitivity = AllObjects.Singleton.SensitivityBar.value;
             PlayerPrefs.SetFloat("Sens", AllObjects.Singleton.SensitivityBar.value);
         }
 
