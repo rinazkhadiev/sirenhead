@@ -57,6 +57,8 @@ public class Ads : MonoBehaviour
         MobileAds.settings.allowInterstitialAdsWhenVideoCostAreLower = true;
 
         MobileAds.settings.isExecuteEventsOnUnityThread = true;
+
+	MobileAds.settings.analyticsCollectionEnabled = true;
 	
 	manager.SetAppReturnAdsEnabled(true);
 

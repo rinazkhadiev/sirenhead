@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "412949881537",
+    "project_id": "siren-horror-3d-survival",
+    "storage_bucket": "siren-horror-3d-survival.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412949881537:android:67d1b42e218fdecfe7ea40",
+        "android_client_info": {
+          "package_name": "com.Khadiev.SirenHeadHorrorGame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "412949881537-9bsq5unup51bbrqlu9bc1qiffp9fua6s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoTA2sbWO1jCIgJtQ7iZlj-QxsaDuYHOU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "412949881537-9bsq5unup51bbrqlu9bc1qiffp9fua6s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
