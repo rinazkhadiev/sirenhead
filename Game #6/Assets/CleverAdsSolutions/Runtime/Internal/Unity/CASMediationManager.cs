@@ -8,7 +8,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 
 namespace CAS.Unity
@@ -198,7 +197,7 @@ namespace CAS.Unity
 
         public string GetLastActiveMediation( AdType adType )
         {
-            return AdNetwork.CrossPromotion.ToString();
+            return string.Empty;
         }
 
         public bool IsEnabledAd( AdType adType )

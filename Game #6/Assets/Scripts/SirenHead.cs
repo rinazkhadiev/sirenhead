@@ -25,6 +25,8 @@ public class SirenHead : MonoBehaviour
 
     private string _tag;
 
+    private float _sirenTimer;
+
     public float Hp { get; private set; }
 
     private void Start()
@@ -45,6 +47,10 @@ public class SirenHead : MonoBehaviour
             {
                 StartCoroutine(HowToPlay());
             }
+
+            Hp = 20f;
+            AllObjects.Singleton.HpBar.maxValue = Hp;
+            AllObjects.Singleton.HpBar.value = Hp;
         }
         else if(_partNumber == 3)
         {
@@ -92,38 +98,58 @@ public class SirenHead : MonoBehaviour
                 _navMesh.isStopped = true;
             }
 
-            if (Character.Singleton.Transform.position.y < 30)
+            if (!_isDead)
             {
-                _navMesh.SetDestination(Character.Singleton.Transform.position);
-
-                if (Vector3.Distance(Character.Singleton.Transform.position, Transform.position) > 15)
+                if (Character.Singleton.Transform.position.y < 30)
                 {
+                    _navMesh.SetDestination(Character.Singleton.Transform.position);
+
+                    if (Vector3.Distance(Character.Singleton.Transform.position, Transform.position) > 15)
+                    {
+                        AllObjects.Singleton.HeardAudio.mute = true;
+                        _anim.SetInteger("State", 1);
+
+                        AllObjects.Singleton.SirenDistanceImage.gameObject.SetActive(false);
+                        _navMesh.speed = _walkSpeed;
+                    }
+                    else if (Vector3.Distance(Character.Singleton.Transform.position, Transform.position) < 15 && Vector3.Distance(Character.Singleton.Transform.position, Transform.position) > 2)
+                    {
+                        _navMesh.speed = _runSpeed;
+                        AllObjects.Singleton.HeardAudio.mute = false;
+                        _anim.SetInteger("State", 2);
+                        _distanceAlpha = 0.3f - ((Mathf.Abs(Transform.position.x - Character.Singleton.Transform.position.x) + Mathf.Abs(Transform.position.z - Character.Singleton.Transform.position.z)) / 2 / 50);
+                        AllObjects.Singleton.SirenDistanceImage.gameObject.SetActive(true);
+                        AllObjects.Singleton.SirenDistanceImage.color = new Color(AllObjects.Singleton.SirenDistanceImage.color.r, AllObjects.Singleton.SirenDistanceImage.color.g, AllObjects.Singleton.SirenDistanceImage.color.b, _distanceAlpha);
+                    }
+                    else if (Vector3.Distance(Character.Singleton.Transform.position, Transform.position) < 2 && !Character.Singleton.IsDead)
+                    {
+                        Dead();
+                    }
+                }
+                else
+                {
+                    _navMesh.SetDestination(AllObjects.Singleton.HouseForSiren.transform.position);
                     AllObjects.Singleton.HeardAudio.mute = true;
                     _anim.SetInteger("State", 1);
-
                     AllObjects.Singleton.SirenDistanceImage.gameObject.SetActive(false);
-                    _navMesh.speed = _walkSpeed;
-                }
-                else if (Vector3.Distance(Character.Singleton.Transform.position, Transform.position) < 15 && Vector3.Distance(Character.Singleton.Transform.position, Transform.position) > 2)
-                {
-                    _navMesh.speed = _runSpeed;
-                    AllObjects.Singleton.HeardAudio.mute = false;
-                    _anim.SetInteger("State", 2);
-                    _distanceAlpha = 0.3f - ((Mathf.Abs(Transform.position.x - Character.Singleton.Transform.position.x) + Mathf.Abs(Transform.position.z - Character.Singleton.Transform.position.z)) / 2 / 50);
-                    AllObjects.Singleton.SirenDistanceImage.gameObject.SetActive(true);
-                    AllObjects.Singleton.SirenDistanceImage.color = new Color(AllObjects.Singleton.SirenDistanceImage.color.r, AllObjects.Singleton.SirenDistanceImage.color.g, AllObjects.Singleton.SirenDistanceImage.color.b, _distanceAlpha);
-                }
-                else if (Vector3.Distance(Character.Singleton.Transform.position, Transform.position) < 2 && !Character.Singleton.IsDead)
-                {
-                    Dead();
                 }
             }
             else
             {
-                _navMesh.SetDestination(AllObjects.Singleton.HouseForSiren.transform.position);
-                AllObjects.Singleton.HeardAudio.mute = true;
-                _anim.SetInteger("State", 1);
                 AllObjects.Singleton.SirenDistanceImage.gameObject.SetActive(false);
+                if (_sirenTimer > 0)
+                {
+                    _sirenTimer -= Time.deltaTime;
+                    AllObjects.Singleton.SirenTimerText.text = $"{(int)_sirenTimer}";
+                }
+                else
+                {
+
+                    AllObjects.Singleton.SirenTimerText.gameObject.SetActive(false);
+                    Hp = 20f;
+                    AllObjects.Singleton.HpBar.value = AllObjects.Singleton.FirstPartSirenHeadScript.Hp;
+                    _isDead = false;
+                }
             }
         }
 
@@ -359,16 +385,6 @@ public class SirenHead : MonoBehaviour
 
                 if (!Ads.Singleton.InterstitialShowed)
                 {
-                    //if (IronSource.Agent.isInterstitialReady())
-                    //{
-                    //    IronSource.Agent.showInterstitial();
-                    //    AllObjects.Singleton.AnalyticsEvent.OnEvent("AfterDeadSuccess");
-                    //}
-                    //else
-                    //{
-                    //    AllObjects.Singleton.AnalyticsEvent.OnEvent("AfterDeadFailed");
-                    //}
-
                     if (Ads.Singleton.manager.IsReadyAd(CAS.AdType.Interstitial))
                     {
                         Ads.Singleton.manager.ShowAd(CAS.AdType.Interstitial);
@@ -448,12 +464,27 @@ public class SirenHead : MonoBehaviour
             StartCoroutine(SirenDead());
         }
 
-        if (AllObjects.Singleton.ThirdPartSirenHeadScript.Hp <= 0 && _tag != "MiniSiren")
+        if (_partNumber == 1)
         {
-            StartCoroutine(Winner());
+            if (AllObjects.Singleton.FirstPartSirenHeadScript.Hp <= 0)
+            {
+                AllObjects.Singleton.AnalyticsEvent.OnEvent("1PSirenIsDead");
+                _isDead = true;
+                _anim.SetInteger("State", 3);
+                _sirenTimer = 15f;
+                AllObjects.Singleton.SirenTimerText.gameObject.SetActive(true);
+                AllObjects.Singleton.MiniSirenDead.PlayOneShot(AllObjects.Singleton.MiniSirenDead.clip);
+            }
+            AllObjects.Singleton.HpBar.value = AllObjects.Singleton.FirstPartSirenHeadScript.Hp;
         }
-
-        AllObjects.Singleton.HpBar.value = AllObjects.Singleton.ThirdPartSirenHeadScript.Hp;
+        else if (_partNumber == 3)
+        {
+            if (AllObjects.Singleton.ThirdPartSirenHeadScript.Hp <= 0 && _tag != "MiniSiren")
+            {
+                StartCoroutine(Winner());
+            }
+            AllObjects.Singleton.HpBar.value = AllObjects.Singleton.ThirdPartSirenHeadScript.Hp;
+        }
     }
 
     IEnumerator CamShoot()

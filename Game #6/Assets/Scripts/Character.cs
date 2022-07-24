@@ -204,6 +204,7 @@ public class Character : MonoBehaviour
 
     IEnumerator JumpWait()
     {
+        AllObjects.Singleton.JumpSound.PlayOneShot(AllObjects.Singleton.JumpClips[Random.Range(0, AllObjects.Singleton.JumpClips.Length)]);
         _isJumping = true;
         yield return new WaitForSeconds(0.1f);
         _isJumping = false;

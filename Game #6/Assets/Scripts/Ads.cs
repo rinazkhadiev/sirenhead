@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using UnityEngine.SceneManagement;
 using CAS;
 
@@ -36,7 +35,6 @@ public class Ads : MonoBehaviour
         Singleton = this;
 
 
-
         manager = MobileAds.BuildManager()
           .WithManagerIdAtIndex(0)
           .WithInitListener((success, error) => {
@@ -44,11 +42,11 @@ public class Ads : MonoBehaviour
            .WithMediationExtras(MediationExtras.facebookDataProcessing, "LDU")
           .Initialize();
 
-        manager.OnLoadedAd += (adType) => {
-            Debug.Log(adType.ToString() + " Loaded");
+        manager.OnLoadedAd += (adType) =>
+        {
         };
-        manager.OnFailedToLoadAd += (adType, error) => {
-            Debug.Log(adType.ToString() + " Failed to Load with error " + error);
+        manager.OnFailedToLoadAd += (adType, error) =>
+        {
         };
 
         manager.OnInterstitialAdClosed += InterstitialAdClosedEvent;
@@ -58,10 +56,9 @@ public class Ads : MonoBehaviour
 
         MobileAds.settings.isExecuteEventsOnUnityThread = true;
 
-	MobileAds.settings.analyticsCollectionEnabled = true;
+	    MobileAds.settings.analyticsCollectionEnabled = true;
 	
-	manager.SetAppReturnAdsEnabled(true);
-
+	    manager.SetAppReturnAdsEnabled(true);
 
 
         if (SceneManager.GetActiveScene().name != "Main")
@@ -123,12 +120,12 @@ public class Ads : MonoBehaviour
     {
         if (_forMenu)
         {
-            AllObjects.Singleton.AnalyticsEvent.OnEvent("GoToMenu");
+            AllObjects.Singleton.AnalyticsEvent.OnEvent("AdsEvent_Showed");
             SceneManager.LoadScene("Main");
         }
         else
         {
-            AllObjects.Singleton.AnalyticsEvent.OnEvent("AfterDeadShowed");
+            AllObjects.Singleton.AnalyticsEvent.OnEvent("AdsEvent_Showed");
         }
         _forMenu = false;
     }
@@ -142,11 +139,13 @@ public class Ads : MonoBehaviour
             if (_partName == "Four")
             {
                 _analyticsEventManager.OnEvent("4PStart");
+                _analyticsEventManager.OnEvent("AdsEvent_Showed");
                 SceneChange.Singleton.SceneLoad(5);
             }
             else if (_partName == "Five")
             {
                 _analyticsEventManager.OnEvent("5PStart");
+                _analyticsEventManager.OnEvent("AdsEvent_Showed");
                 SceneChange.Singleton.SceneLoad(6);
             }
         }
@@ -156,12 +155,13 @@ public class Ads : MonoBehaviour
             {
                 Character.Singleton.Respawn();
                 AllObjects.Singleton.AnalyticsEvent.OnEvent("Continue");
-                AllObjects.Singleton.AnalyticsEvent.OnEvent("ContinuedOrRestarted");
+                AllObjects.Singleton.AnalyticsEvent.OnEvent("AdsEvent_Showed");
             }
             else if (_whatButton == "Spell")
             {
                 Character.Singleton.GravityValue = 0;
                 AllObjects.Singleton.AnalyticsEvent.OnEvent("Spell");
+                AllObjects.Singleton.AnalyticsEvent.OnEvent("AdsEvent_Showed");
                 AllObjects.Singleton.SpellPanel.SetActive(false);
                 AllObjects.Singleton.SirenIsStop = false;
             }
@@ -170,7 +170,6 @@ public class Ads : MonoBehaviour
 
     public void Restart()
     {
-        AllObjects.Singleton.AnalyticsEvent.OnEvent("ContinuedOrRestarted");
         AllObjects.Singleton.AnalyticsEvent.OnEvent("Restart");
         SceneManager.LoadScene("Play");
     }
@@ -184,8 +183,8 @@ public class Ads : MonoBehaviour
         }
         else
         {
-            _adButtonTimer = 5;
-            AllObjects.Singleton.AnalyticsEvent.OnEvent("ContinueFail");
+            _adButtonTimer = 5; 
+            AllObjects.Singleton.AnalyticsEvent.OnEvent("AdsEvent_Fail");
         }
     }
 
@@ -200,7 +199,7 @@ public class Ads : MonoBehaviour
         else
         {
             _adButtonTimer = 5;
-            AllObjects.Singleton.AnalyticsEvent.OnEvent("SpellFail");
+            AllObjects.Singleton.AnalyticsEvent.OnEvent("AdsEvent_Fail");
         }
     }
 
@@ -214,7 +213,7 @@ public class Ads : MonoBehaviour
         else
         {
             _adButtonTimer = 5;
-            _analyticsEventManager.OnEvent("OpenPartFail");
+            AllObjects.Singleton.AnalyticsEvent.OnEvent("AdsEvent_Fail");
         }
     }
 
@@ -227,7 +226,7 @@ public class Ads : MonoBehaviour
         }
         else
         {
-            AllObjects.Singleton.AnalyticsEvent.OnEvent("GoToMenuFail");
+            AllObjects.Singleton.AnalyticsEvent.OnEvent("AdsEvent_Fail");
             SceneManager.LoadScene("Main");
         }
     }

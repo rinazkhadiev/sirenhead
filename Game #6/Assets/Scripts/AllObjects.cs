@@ -31,7 +31,10 @@ public class AllObjects : MonoBehaviour
     public GameObject FirstPartSirenHead;
     public GameObject ThirdPartSirenHead;
     public SirenHead ThirdPartSirenHeadScript;
+    public SirenHead FirstPartSirenHeadScript;
     public GameObject MiniSirenPrefab;
+
+    public Text SirenTimerText;
 
     public GameObject MiniCartoonPrefabA;
     public GameObject MiniCartoonPrefabB;
@@ -180,6 +183,10 @@ public class AllObjects : MonoBehaviour
     public AudioClip[] SecondSteps;
 
     public AudioClip[] WeaponSounds;
+
+    public AudioSource JumpSound;
+    public AudioClip[] JumpClips;
+    
 
 
 

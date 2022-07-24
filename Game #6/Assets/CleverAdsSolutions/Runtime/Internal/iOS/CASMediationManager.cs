@@ -139,7 +139,7 @@ namespace CAS.iOS
 
         public string GetLastActiveMediation( AdType adType )
         {
-            return CASExterns.CASUGetLastActiveMediationWithType( _managerRef, ( int )adType );
+            return string.Empty;
         }
 
         public bool IsEnabledAd( AdType adType )
@@ -213,6 +213,7 @@ namespace CAS.iOS
             CASExterns.CASUDestroyAdView( ( ( CASView )view )._viewRef, _managerRef, ( int )view.size );
         }
 
+        [UnityEngine.Scripting.Preserve]
         public bool TryOpenDebugger()
         {
             CASExterns.CASUOpenDebugger( _managerRef );

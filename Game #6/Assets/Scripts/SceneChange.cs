@@ -20,7 +20,6 @@ public class SceneChange : MonoBehaviour
 
     [SerializeField] private GameObject _highSettings;
     [SerializeField] private GameObject _lowSettings;
-    [SerializeField] private GameObject _villagePanel;
 
     private void Start()
     {
@@ -55,18 +54,6 @@ public class SceneChange : MonoBehaviour
         if (PlayerPrefs.GetInt("Part 3") == 1)
         {
             _startThreeButton.interactable = true;
-        }
-
-        if(PlayerPrefs.HasKey("Village"))
-        {
-	    if(PlayerPrefs.GetInt("Village") == 1)
-	    {
-               _villagePanel.SetActive(true);
-	    }
-        }
-        else
-        {
-            PlayerPrefs.SetInt("Village", 1);
         }
 
         Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>

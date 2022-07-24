@@ -192,7 +192,7 @@ namespace CAS.Android
 
         public string GetLastActiveMediation( AdType adType )
         {
-            return _managerBridge.Call<string>( "getLastActiveMediation", ( int )adType );
+            return string.Empty;
         }
 
         public bool IsEnabledAd( AdType adType )
@@ -252,6 +252,7 @@ namespace CAS.Android
             }
         }
 
+        [UnityEngine.Scripting.Preserve]
         public bool TryOpenDebugger()
         {
             return _managerBridge.Call<bool>( "tryOpenDebugger" );

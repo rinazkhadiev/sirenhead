@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using UnityEngine.AI;
 
 public class Detail : MonoBehaviour
 {
@@ -90,7 +89,6 @@ public class Detail : MonoBehaviour
 
             Character.Singleton.Transform.position = AllObjects.Singleton.ThirdPartCharPos.transform.position;
             Character.Singleton.SpawnPosition = AllObjects.Singleton.ThirdPartCharPos.transform.position;
-
 
             AllObjects.Singleton.AnalyticsEvent.OnEvent("3PLoaded");
         }
@@ -603,7 +601,7 @@ public class Detail : MonoBehaviour
 
     IEnumerator ChangeCar()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         AllObjects.Singleton.FirstPartCar.SetActive(false);
         AllObjects.Singleton.RepairedCar.SetActive(true);
         _isRepaired = true;

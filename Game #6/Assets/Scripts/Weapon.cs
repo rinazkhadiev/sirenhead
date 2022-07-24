@@ -17,7 +17,17 @@ public class Weapon : MonoBehaviour
     {
         _camera = Camera.main;
 
-        if (PlayerPrefs.GetInt("Part") == 3)
+        if (PlayerPrefs.GetInt("Part") == 1)
+        {
+            AllObjects.Singleton.AimUI.SetActive(true);
+            AllObjects.Singleton.ShootButton.SetActive(true);
+            AllObjects.Singleton.HpBar.gameObject.SetActive(true);
+            AllObjects.Singleton.BulletValueText.gameObject.SetActive(true);
+            AllObjects.Singleton.WeaponReloadButton.gameObject.SetActive(true);
+            AllObjects.Singleton.GunsPanel.SetActive(true);
+            AllObjects.Singleton.SirenIsStop = true;
+        }
+        else if (PlayerPrefs.GetInt("Part") == 3)
         {
             AllObjects.Singleton.AimUI.SetActive(true);
             AllObjects.Singleton.ShootButton.SetActive(true);
@@ -58,7 +68,7 @@ public class Weapon : MonoBehaviour
         if (_bulletValue > 0)
         {
             if (Physics.Raycast(AllObjects.Singleton.RaycastTarget.transform.position, AllObjects.Singleton.RaycastTarget.transform.forward, out _hit))
-            {
+            {   
                 if (_hit.collider.GetComponent<SirenHead>())
                 {
                     _hit.collider.GetComponent<SirenHead>().GetDamage(_damage);
@@ -94,7 +104,7 @@ public class Weapon : MonoBehaviour
         _gunNumber = number;
 
         AllObjects.Singleton.WeaponShootSound.clip = AllObjects.Singleton.WeaponSounds[_gunNumber - 1];
-
+        AllObjects.Singleton.AnalyticsEvent.OnEvent("WeaponSelected");
         AllObjects.Singleton.SirenIsStop = false;
     }
 
